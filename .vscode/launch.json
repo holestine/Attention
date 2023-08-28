@@ -1,0 +1,39 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Transformer",
+            "type": "python",
+            "request": "launch",
+            "program": "test.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [""],
+            "purpose": ["debug-in-terminal"],
+            "cwd": "${workspaceFolder}/transformer-from-scratch"
+        },
+        {
+            "name": "Train MNIST",
+            "type": "python",
+            "request": "launch",
+            "program": "mnist.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            //"args": [""],
+            "purpose": ["debug-in-terminal"],
+            "cwd": "${workspaceFolder}"
+        },
+
+    ]
+}
