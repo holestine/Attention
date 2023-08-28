@@ -9,15 +9,15 @@ Since I come from a Computer Vision background I was interested to see how well 
 
 ```
 self.model = ViT(
-                        image_size = 784,
-                        patch_size = 4,
-                        num_classes = 10,
-                        dim = 1024,
-                        depth = 6,
-                        heads = 16,
-                        mlp_dim = 2048,
-                        channels=1,
-                        dropout = 0.1,
-                        emb_dropout = 0.1
-                        )
+    image_size = 784,      # MNIST image size is 28*28=784
+    patch_size = 4,
+    num_classes = 10,      # Classify digits 0-9
+    dim = 1024,
+    depth = 6,
+    heads = 16,
+    mlp_dim = 2048,
+    channels=1,
+    dropout = 0.1,
+    emb_dropout = 0.1
+    )
 ```
