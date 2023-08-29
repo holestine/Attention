@@ -10,14 +10,14 @@ Since I come from a Computer Vision background I was interested to see how well 
 ```
 self.model = ViT(
     image_size = 784,      # MNIST image size is 28*28=784
-    patch_size = 4,
+    patch_size = 16,       # Number of patches will be image_size/patch_size
     num_classes = 10,      # Classify digits 0-9
-    dim = 1024,
-    depth = 6,
-    heads = 16,
-    mlp_dim = 2048,
-    channels=1,
-    dropout = 0.1,
-    emb_dropout = 0.1
+    dim = 1024,            # Length of encoding
+    depth = 6,             # Number of Transformer blocks
+    heads = 16,            # Number of heads in Multi-head Attention layer
+    mlp_dim = 2048,        # Dimension of the MLP (FeedForward) layer
+    channels = 1,          # Number of input channels
+    dropout = 0.1,         # Dropout rate
+    emb_dropout = 0.1      # Embedding dropout rate
     )
 ```
