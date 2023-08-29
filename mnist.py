@@ -8,9 +8,9 @@ from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from vit_pytorch import ViT
 
-class Net(nn.Module):
+class CNNNet(nn.Module):
     def __init__(self):
-        super(Net, self).__init__()
+        super(CNNNet, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, 3, 1)
         self.conv2 = nn.Conv2d(32, 64, 3, 1)
         self.dropout1 = nn.Dropout(0.25)
@@ -33,14 +33,14 @@ class Net(nn.Module):
         output = F.log_softmax(x, dim=1)
 
         return output
-
+    
 class AttentionNet(nn.Module):
     def __init__(self):
         super(AttentionNet, self).__init__()
 
         self.model = ViT(
                         image_size = 784,
-                        patch_size = 4,
+                        patch_size = 7,
                         num_classes = 10,
                         dim = 1024,
                         depth = 6,
@@ -57,6 +57,36 @@ class AttentionNet(nn.Module):
         output = F.log_softmax(x, dim=1)
         return output
 
+class HybridNet(nn.Module):
+    def __init__(self):
+        super(HybridNet, self).__init__()
+        self.conv1 = nn.Conv2d(1, 32, 3, 1)
+        self.conv2 = nn.Conv2d(32, 64, 3, 1)
+
+        self.vit = ViT(
+                        image_size = 144,
+                        patch_size = 6,
+                        num_classes = 10,
+                        dim = 256,
+                        depth = 6,
+                        heads = 32,
+                        mlp_dim = 1024,
+                        channels = 64,
+                        dropout = 0.1,
+                        emb_dropout = 0.1
+                        )
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = F.relu(x)
+        x = self.conv2(x)
+        x = F.relu(x)
+        x = F.max_pool2d(x, 2)
+        x = self.vit(x)
+
+        output = F.log_softmax(x, dim=1)
+
+        return output
 
 def train(args, model, device, train_loader, optimizer, epoch):
     model.train()
@@ -152,8 +182,9 @@ def main():
     train_loader = torch.utils.data.DataLoader(dataset1,**train_kwargs)
     test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
 
-    model = AttentionNet().to(device)
-    optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
+    model = HybridNet().to(device)
+    #optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
+    optimizer = optim.Adam(model.parameters(), lr=args.lr/10000)
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
     for epoch in range(1, args.epochs + 1):
