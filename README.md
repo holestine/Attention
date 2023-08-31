@@ -26,7 +26,7 @@ Then switching to an Adam optimizer with a learning rate of .0001 resulted in an
 
 ## Experiment Three (In Progress)
 
-I suppose the next thing to do is to create a hybrid model. So I started with the [PyTorch MNIST Sample](https://github.com/pytorch/examples/blob/main/mnist/main.py) again but this time kept the convolutional layers and replaced the fully commected layers with the following vision transformer. The values chosen for initialization are a bit lower than what is generally seen but were chosen to keep the number of parameters between the various models within the same order of magnitude. 
+I suppose the next thing to do is to create a hybrid model. So I started with the [PyTorch MNIST Sample](https://github.com/pytorch/examples/blob/main/mnist/main.py) again but this time kept the convolutional layers and replaced the fully connected layers with the following vision transformer. The values chosen for initialization are a bit lower than what is generally seen but keep the number of parameters between the various models within the same order of magnitude. 
 
 ```
 self.vit = ViT(
@@ -43,9 +43,7 @@ self.vit = ViT(
 )
 ```
 
-Making the same modifications to the transformer only model and adding DeepViTNet, another attention mechanism from xxxxxx, and applying some instrumentaion yeilds these results:
-
-same key, Adam, link to file
+Applying the same modifications to the depth, heads and mlp_dim parameters of the transformer only model as well as adding DeepViTNet, another attention mechanism from [vit-pytorch](https://github.com/lucidrains/vit-pytorch "vit-pytorch") yields the following results using a constant seed.
 
 
 |Model Type   | Dataset       |  Max Accuracy | Average Inference Time (ms) | Parameters   |
@@ -62,3 +60,4 @@ same key, Adam, link to file
 |Hybrid       | MNIST         | 99.2          | 10.40                       |  1,591,652   |
 |Hybrid       | CIFAR10       | 69.52         | 10.40                       |  1,727,012   |
 |Hybrid       | CIFAR100      | 34.97         | 10.37                       |  1,727,012   |
+

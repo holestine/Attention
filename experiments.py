@@ -6,14 +6,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
-from torch.optim.lr_scheduler import StepLR, CosineAnnealingLR
+from torch.optim.lr_scheduler import StepLR
 from torch.utils.tensorboard import SummaryWriter
 from timer import Timer
 
 LOG_DIR = "./logs/tb"
 
-MODEL_TYPES    = ["HYBRID"]#["CNN", "TRANSFORMER", "DeepViTNet", "HYBRID"]
-OPTIMIZER_TYPE = "ADAM"     # ADA_DELTA, ADAM
+MODEL_TYPES    = ["CNN", "TRANSFORMER", "DeepViTNet", "HYBRID"]
 DATASETS       = ["MNIST", "CIFAR10", "CIFAR100"] 
 
 def count_parameters(model):
@@ -265,13 +264,9 @@ def main():
             elif MODEL_TYPE == "DeepViTNet":
                 model = DeepViTNet(image_size, patch_size, num_classes, channels).to(device)
 
-            if OPTIMIZER_TYPE == "ADA_DELTA":    
-                optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
-            elif OPTIMIZER_TYPE == "ADAM":
-                optimizer = optim.Adam(model.parameters(), lr=args.lr/10000)
+            optimizer = optim.Adam(model.parameters(), lr=args.lr/10000)
             
             scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
-            #scheduler = CosineAnnealingLR(optimizer, args.epochs)
 
             max_accuracy = 0
             writer = SummaryWriter(log_dir=LOG_DIR)
