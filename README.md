@@ -21,3 +21,44 @@ self.model = ViT(
     emb_dropout =    0.1  # Embedding dropout rate
     )
 ```
+
+Then switching to an Adam optimizer with a learning rate of .0001 resulted in an accuracy of 99%. For reference the original CNN model trains to 99%.
+
+## Experiment Three (In Progress)
+
+I suppose the next thing to do is to create a hybrid model. So I started with the [PyTorch MNIST Sample](https://github.com/pytorch/examples/blob/main/mnist/main.py) again but this time kept the convolutional layers and replaced the fully commected layers with the following vision transformer. The values chosen for initialization are a bit lower than what is generally seen but were chosen to keep the number of parameters between the various models within the same order of magnitude. 
+
+```
+self.vit = ViT(
+    image_size  = 144,
+    patch_size  =   6,
+    num_classes =  10,
+    dim         = 128,
+    depth       =   6,
+    heads       =   4,
+    mlp_dim     = 256,
+    channels    =  64,
+    dropout     =   0.1,
+    emb_dropout =   0.1
+)
+```
+
+Making the same modifications to the transformer only model and adding DeepViTNet, another attention mechanism from xxxxxx, and applying some instrumentaion yeilds these results:
+
+same key, Adam, link to file
+
+
+|Model Type   | Dataset       |  Max Accuracy | Average Inference Time (ms) | Parameters   |
+|-------------| ------------- | ------------: | --------------------------: | ---------:   |
+|CNN          | MNIST         | 98.67         |  1.33                       |  1,199,882   |
+|CNN          | CIFAR10       | 57.78         |  1.33                       |  1,626,442   |
+|CNN          | CIFAR100      | 22.05         |  1.24                       |  1,638,052   |
+|ViT          | MNIST         | 97.87         |  9.46                       |  1,614,866   |
+|ViT          | CIFAR10       | 51.0          |  9.88                       |  1,812,106   |
+|ViT          | CIFAR100      | 19.72         |  9.90                       |  1,823,716   |
+|DeepViTNet   | MNIST         | 97.6          | 13.02                       |  1,615,010   |
+|DeepViTNet   | CIFAR10       | 48.03         | 13.30                       |  1,812,250   |
+|DeepViTNet   | CIFAR100      | 17.89         | 13.31                       |  1,823,860   |
+|Hybrid       | MNIST         | 99.2          | 10.40                       |  1,591,652   |
+|Hybrid       | CIFAR10       | 69.52         | 10.40                       |  1,727,012   |
+|Hybrid       | CIFAR100      | 34.97         | 10.37                       |  1,727,012   |
