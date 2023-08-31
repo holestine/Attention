@@ -7,6 +7,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from vit_pytorch import ViT
+from vit_pytorch.deepvit import DeepViT
 
 class CNNNet(nn.Module):
     def __init__(self):
@@ -30,14 +31,14 @@ class CNNNet(nn.Module):
         x = F.relu(x)
         x = self.dropout2(x)
         x = self.fc2(x)
-        output = F.log_softmax(x, dim=1)
 
+        output = F.log_softmax(x, dim=1)
         return output
     
 class AttentionNet(nn.Module):
     def __init__(self):
         super(AttentionNet, self).__init__()
-
+        
         self.model = ViT(
                         image_size = 784,
                         patch_size = 7,
@@ -85,7 +86,30 @@ class HybridNet(nn.Module):
         x = self.vit(x)
 
         output = F.log_softmax(x, dim=1)
+        return output
 
+class DeepViTNet(nn.Module):
+    def __init__(self):
+        super(DeepViTNet, self).__init__()
+        
+        self.model = DeepViT(
+                        image_size = 784,
+                        patch_size = 7,
+                        num_classes = 10,
+                        dim = 1024,
+                        depth = 6,
+                        heads = 16,
+                        mlp_dim = 2048,
+                        channels=1,
+                        dropout = 0.1,
+                        emb_dropout = 0.1
+                        )
+
+    def forward(self, x):
+        
+        x = self.model(x)
+
+        output = F.log_softmax(x, dim=1)
         return output
 
 def train(args, model, device, train_loader, optimizer, epoch):
@@ -182,7 +206,8 @@ def main():
     train_loader = torch.utils.data.DataLoader(dataset1,**train_kwargs)
     test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
 
-    model = HybridNet().to(device)
+    model = DeepViTNet().to(device)
+
     #optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
     optimizer = optim.Adam(model.parameters(), lr=args.lr/10000)
 
