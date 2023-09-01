@@ -6,7 +6,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
-from torch.optim.lr_scheduler import StepLR
+from torch.optim.lr_scheduler import StepLR, CosineAnnealingLR
 from torch.utils.tensorboard import SummaryWriter
 from timer import Timer
 
@@ -14,6 +14,11 @@ LOG_DIR = "./logs/tb"
 
 MODEL_TYPES    = ["CNN", "TRANSFORMER", "DeepViTNet", "HYBRID"]
 DATASETS       = ["MNIST", "CIFAR10", "CIFAR100"] 
+
+HIDDEN_SIZE = 768
+DEPTH = 12
+HEADS = 12
+MLP_DIM = 3072
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -53,10 +58,10 @@ class TransformerNet(nn.Module):
                         image_size = image_size,
                         patch_size = patch_size,
                         num_classes = num_classes,
-                        dim = 128,
-                        depth = 6,
-                        heads = 4,
-                        mlp_dim = 256,
+                        dim = HIDDEN_SIZE,
+                        depth = DEPTH,
+                        heads = HEADS,
+                        mlp_dim = MLP_DIM,
                         channels=channels,
                         dropout = 0.1,
                         emb_dropout = 0.1
@@ -82,10 +87,10 @@ class HybridNet(nn.Module):
                         image_size = image_width ** 2,
                         patch_size = int(image_width / 2),
                         num_classes = num_classes,
-                        dim = 128,
-                        depth = 6,
-                        heads = 4,
-                        mlp_dim = 256,
+                        dim = HIDDEN_SIZE,
+                        depth = DEPTH,
+                        heads = HEADS,
+                        mlp_dim = MLP_DIM,
                         channels = 64,
                         dropout = 0.1,
                         emb_dropout = 0.1
@@ -111,10 +116,10 @@ class DeepViTNet(nn.Module):
                         image_size = image_size,
                         patch_size = patch_size,
                         num_classes = num_classes,
-                        dim = 128,
-                        depth = 6,
-                        heads = 4,
-                        mlp_dim = 256,
+                        dim = HIDDEN_SIZE,
+                        depth = DEPTH,
+                        heads = HEADS,
+                        mlp_dim = MLP_DIM,
                         channels=channels,
                         dropout = 0.1,
                         emb_dropout = 0.1
@@ -174,8 +179,8 @@ def main():
                         help='input batch size for training (default: 64)')
     parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
                         help='input batch size for testing (default: 1000)')
-    parser.add_argument('--epochs', type=int, default=1, metavar='N',
-                        help='number of epochs to train (default: 14)')
+    parser.add_argument('--epochs', type=int, default=15, metavar='N',
+                        help='number of epochs to train (default: 15)')
     parser.add_argument('--lr', type=float, default=1.0, metavar='LR',
                         help='learning rate (default: 1.0)')
     parser.add_argument('--gamma', type=float, default=0.7, metavar='M',
