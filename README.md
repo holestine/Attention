@@ -26,7 +26,7 @@ Then switching to an Adam optimizer with a learning rate of .0001 resulted in an
 
 ## Experiment Three (In Progress)
 
-I suppose the next thing to do is to create a hybrid model. So I started with the [PyTorch MNIST Sample](https://github.com/pytorch/examples/blob/main/mnist/main.py) again but this time kept the convolutional layers and replaced the fully connected layers with the following vision transformer. The values chosen for initialization are a bit lower than what is generally seen but keep the number of parameters between the various models within the same order of magnitude. 
+I suppose the next thing to do is to create a hybrid model. So I started with the [PyTorch MNIST Sample](https://github.com/pytorch/examples/blob/main/mnist/main.py) again but this time kept the convolutional layers and replaced the fully connected layers with the following vision transformer. The values chosen for initialization are a bit lower than what is generally seen but they keep the number of parameters between the various models within the same order of magnitude. 
 
 ```
 self.vit = ViT(
@@ -43,7 +43,7 @@ self.vit = ViT(
 )
 ```
 
-Incorporating the [CIFAR10 and CIFAR100](https://www.cs.toronto.edu/~kriz/cifar.html "CIFAR website") datasets and applying the same modifications to the length of the hidden vector, depth, heads and mlp_dim parameters of the transformer model as well as adding DeepViTNet, another attention mechanism from [vit-pytorch](https://github.com/lucidrains/vit-pytorch "vit-pytorch") yields the following results. Subsequent runs produce similar numbers.
+Applying these same modifications to the *dim*, *depth*, *heads* and *mlp_dim* parameters for the transformer only model and DeepViTNet, another attention mechanism from [vit-pytorch](https://github.com/lucidrains/vit-pytorch "vit-pytorch") and incorporating the [CIFAR10 and CIFAR100](https://www.cs.toronto.edu/~kriz/cifar.html "CIFAR website") datasets yields the following results. Subsequent runs produce similar numbers.
 
 
 |Model Type   | Dataset     | Max Accuracy| Average Inference Time (ms)| Parameters|
@@ -61,7 +61,7 @@ Incorporating the [CIFAR10 and CIFAR100](https://www.cs.toronto.edu/~kriz/cifar.
 |Hybrid       | CIFAR10     | 69.52       | 10.40                      | 1,727,012 |
 |Hybrid       | CIFAR100    | 34.97       | 10.37                      | 1,727,012 |
 
-The most interesting thing here is that the CNN model executes much faster than all other models and the Hybrid model produced the best results. Let's adjust the initialization of the vision transformer to more commonly seen values, in this case the values from the paper [AN IMAGE IS WORTH 16X16 WORDS](https://arxiv.org/pdf/2010.11929.pdf "AN IMAGE IS WORTH 16X16 WORDS") for ViT-Base. So the initialization of the transformer only model for the MNIST dataset looks like the following.
+The most interesting thing here is that the CNN model executes much faster than all other models and the Hybrid model produces the best results. Let's adjust the initialization of the vision transformer to more commonly seen values, in this case the values from the paper [AN IMAGE IS WORTH 16X16 WORDS](https://arxiv.org/pdf/2010.11929.pdf "PDF") for the ViT-Base model. So the initialization of the transformer only model for the MNIST dataset looks like the following and the same values for *dim*, *depth*, *heads* and *mlp_dim* are also used in the DeepViNet and Hybrid models.
 
 ```
 self.model = ViT(
@@ -78,7 +78,7 @@ self.model = ViT(
 )
 ```
 
-And these are the results we get.
+And these are the results we get showing the values before and after where relevent. 
 
 |Model Type   | Dataset     | Max Accuracy   | Average Inference Time (ms)| Parameters             |
 |-------------|-------------|---------------:|---------------------------:|-----------------------:|
