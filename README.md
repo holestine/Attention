@@ -24,7 +24,7 @@ self.model = ViT(
 
 Then switching to an Adam optimizer with a learning rate of .0001 resulted in an accuracy of 99%. For reference the original CNN model trains to 99%.
 
-## Experiment Three (In Progress)
+## Experiment Three
 
 I suppose the next thing to do is to create a hybrid model. So I started with the [PyTorch MNIST Sample](https://github.com/pytorch/examples/blob/main/mnist/main.py) again but this time kept the convolutional layers and replaced the fully connected layers with the following vision transformer. The values chosen for initialization are a bit lower than what is generally seen but they keep the number of parameters between the various models within the same order of magnitude. 
 
@@ -43,7 +43,7 @@ self.vit = ViT(
 )
 ```
 
-Applying these same modifications to the *dim*, *depth*, *heads* and *mlp_dim* parameters for the transformer only model and DeepViTNet, another attention mechanism from [vit-pytorch](https://github.com/lucidrains/vit-pytorch "vit-pytorch") and incorporating the [CIFAR10 and CIFAR100](https://www.cs.toronto.edu/~kriz/cifar.html "CIFAR website") datasets yields the following results. Subsequent runs produce similar numbers.
+Applying these same modifications to the *dim*, *depth*, *heads* and *mlp_dim* parameters for the transformer only model as well as DeepViTNet, another attention mechanism from [vit-pytorch](https://github.com/lucidrains/vit-pytorch "vit-pytorch") and incorporating the [CIFAR10 and CIFAR100](https://www.cs.toronto.edu/~kriz/cifar.html "CIFAR website") datasets yields the following results. Subsequent runs produce similar numbers.
 
 
 |Model Type   | Dataset     | Max Accuracy| Average Inference Time (ms)| Parameters|
@@ -95,7 +95,7 @@ And these are the results we get showing the values before and after where relev
 |Hybrid       | CIFAR10     | 69.52 -> 73.02 | 10.40 -> 14.86             | 1,727,012 -> 88,076,106|
 |Hybrid       | CIFAR100    | 34.97 -> 45.87 | 10.37 -> 15.21             | 1,727,012 -> 88,145,316|
 
-The CNN model was unmodified and the numbers produced correlate with the previous run. For all other models that contain attention mechanisms we can see that the number of parameters has increased significantly however the increase in inference time is more modest indicating that many of these operations added are done in parallel. The Hybrid model once again produces the best results and has an accuracy score twice that of the CNN model for the CIFAR100 dataset. This seems to indicate that as the complexity of the task increases that the benifit we get from attention mechanisms becomes more pronounced. 
+The CNN model was unmodified and the numbers produced correlate with the previous run. For all other models that contain attention mechanisms we can see that the number of parameters has increased significantly however the increase in inference time is more modest indicating that many of the additional operations are done in parallel. The Hybrid model once again produces the best results and has an accuracy score twice that of the CNN model for the CIFAR100 dataset. This seems to indicate that as the complexity of the task increases that the benifit we get from attention mechanisms becomes more pronounced. 
 
 
-#deeplearning #attentionmechanisms
+#deeplearning #attentionmechanisms #computervision
