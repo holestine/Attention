@@ -78,7 +78,7 @@ self.model = ViT(
 )
 ```
 
-And these are the results we get showing the values before and after where relevent. 
+And these are the results we get showing the values before and after where relevant. 
 
 |Model Type   | Dataset     | Max Accuracy   | Average Inference Time (ms)| Parameters             |
 |-------------|-------------|---------------:|---------------------------:|-----------------------:|
@@ -95,7 +95,7 @@ And these are the results we get showing the values before and after where relev
 |Hybrid       | CIFAR10     | 69.52 -> 73.02 | 10.40 -> 14.86             | 1,727,012 -> 88,076,106|
 |Hybrid       | CIFAR100    | 34.97 -> 45.87 | 10.37 -> 15.21             | 1,727,012 -> 88,145,316|
 
-The CNN model was unmodified and the numbers produced correlate with the previous run. For all other models that contain attention mechanisms we can see that the number of parameters has increased significantly however the increase in inference time is more modest indicating that many of the additional operations are done in parallel. The Hybrid model once again produces the best results and has an accuracy score twice that of the CNN model for the CIFAR100 dataset. This seems to indicate that as the complexity of the task increases that the benifit we get from attention mechanisms becomes more pronounced. 
+The CNN model was unmodified and the numbers produced correlate with the previous run. For all other models that contain attention mechanisms we can see that the number of parameters has increased significantly however the increase in inference time is more modest indicating that many of the additional operations are done in parallel. The Hybrid model once again produces the best results and has an accuracy score twice that of the CNN model for the CIFAR100 dataset. This seems to indicate that as the complexity of the task increases that the benefit we get from attention mechanisms becomes more pronounced. You can run this experiment for yourself using the file [experiments.py](./experiments.py)
 
 
 #deeplearning #attentionmechanisms #computervision
