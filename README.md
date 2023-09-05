@@ -95,7 +95,21 @@ And these are the results we get showing the values before and after where relev
 |Hybrid       | CIFAR10     | 69.52 -> 73.02 | 10.40 -> 14.86             | 1,727,012 -> 88,076,106|
 |Hybrid       | CIFAR100    | 34.97 -> 45.87 | 10.37 -> 15.21             | 1,727,012 -> 88,145,316|
 
-The CNN model was unmodified and the numbers produced correlate with the previous run. For all other models that contain attention mechanisms we can see that the number of parameters has increased significantly however the increase in inference time is more modest indicating that many of the additional operations are done in parallel. The Hybrid model once again produces the best results and has an accuracy score twice that of the CNN model for the CIFAR100 dataset. This seems to indicate that as the complexity of the task increases that the benefit we get from attention mechanisms becomes more pronounced. You can run this experiment for yourself using the file [experiments.py](./experiments.py)
+The CNN model was unmodified and the numbers produced correlate with the previous run. For all other models that contain attention mechanisms we can see that the number of parameters has increased significantly however the increase in inference time is more modest indicating that many of the additional operations are done in parallel. The Hybrid model once again produces the best results and has an accuracy score twice that of the CNN model for the CIFAR100 dataset. This seems to indicate that as the complexity of the task increases that the benefit we get from attention mechanisms becomes more pronounced. In order to get a sense of the effect the depth parameter has in the vision transformer I ran this same test again but initialized the value to 6 (instead of 12) as it was before. The following table shows how the accuracy was not significantly affected, the inference time was brought back down and the parameter count is significantly reduced yet still much higher than the CNN only model. You can run this experiment for yourself using the file [experiments.py](./experiments.py).
 
+|Model Type   | Dataset     | Max Accuracy            | Average Inference Time (ms)| Parameters                           |
+|-------------|-------------|------------------------:|---------------------------:|-------------------------------------:|
+|CNN          | MNIST       | 97.05 -> 98.70          |  1.33 -> 1.34              | 1,199,882                            |
+|CNN          | CIFAR10     | 57.78 -> 57.39          |  1.33 -> 1.33              | 1,626,442                            |
+|CNN          | CIFAR100    | 22.05 -> 22.38          |  1.24 -> 1.26              | 1,638,052                            |
+|ViT          | MNIST       | 97.87 -> 98.87 -> 98.81 |  9.46 -> 13.04 -> 8.98     | 1,614,866 -> 87,599,250 -> 45,085,842|
+|ViT          | CIFAR10     | 51.0  -> 58.70 -> 58.78 |  9.88 -> 13.98 -> 9.40     | 1,812,106 -> 88,776,970 -> 46,263,562|
+|ViT          | CIFAR100    | 19.72 -> 32.87 -> 32.32 |  9.90 -> 14.24 -> 9.77     | 1,823,716 -> 88,846,180 -> 46,332,772|
+|DeepViTNet   | MNIST       | 97.6  -> 98.54 -> 98.73 | 13.02 -> 16.20 -> 11.97    | 1,615,010 -> 87,601,266 -> 45,086,850|
+|DeepViTNet   | CIFAR10     | 48.03 -> 55.71 -> 56.07 | 13.30 -> 19.65 -> 12.34    | 1,812,250 -> 88,778,986 -> 46,264,570|
+|DeepViTNet   | CIFAR100    | 17.89 -> 29.32 -> 29.71 | 13.31 -> 19.88 -> 12.57    | 1,823,860 -> 88,848,196 -> 46,333,780|
+|Hybrid       | MNIST       | 99.2  -> 99.37 -> 99.35 | 10.40 -> 12.57 -> 9.63     | 1,591,652 -> 87,275,146 -> 44,761,738|
+|Hybrid       | CIFAR10     | 69.52 -> 73.02 -> 73.17 | 10.40 -> 14.86 -> 9.60     | 1,727,012 -> 88,076,106 -> 45,562,698|
+|Hybrid       | CIFAR100    | 34.97 -> 45.87 -> 46.11 | 10.37 -> 15.21 -> 9.77     | 1,727,012 -> 88,145,316 -> 45,631,908|
 
 #deeplearning #attentionmechanisms #computervision
