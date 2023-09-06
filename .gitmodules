@@ -1,3 +1,6 @@
 [submodule "transformer-from-scratch"]
 	path = transformer-from-scratch
 	url = https://github.com/holestine/transformer-from-scratch
+[submodule "UniAD"]
+	path = UniAD
+	url = https://github.com/holestine/UniAD
