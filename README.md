@@ -112,4 +112,13 @@ The CNN model was unmodified and the numbers produced correlate with the previou
 |Hybrid       | CIFAR10     | 69.52 -> 73.02 -> 73.17 | 10.40 -> 14.86 -> 9.60     | 1,727,012 -> 88,076,106 -> 45,562,698|
 |Hybrid       | CIFAR100    | 34.97 -> 45.87 -> 46.11 | 10.37 -> 15.21 -> 9.77     | 1,727,012 -> 88,145,316 -> 45,631,908|
 
+
+## Experiment Four
+
+[Planning-oriented Autonomous Driving](https://arxiv.org/pdf/2212.10156) was one of the top papers at CVPR 2023 that describes an approach for autonomous vehicles that outperforms previous state of the art methods. It uses both self and cross attention in a modular design that is trainable from end to end. We'll be taking a closer look..
+
+
+![architecture](UniAD/sources/pipeline.png)
+
+
 #deeplearning #attentionmechanisms #computervision
