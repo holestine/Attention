@@ -118,7 +118,7 @@ The CNN model was unmodified and the numbers produced correlate with the previou
 [Planning-oriented Autonomous Driving](https://arxiv.org/pdf/2212.10156) was one of the top papers at CVPR 2023 that describes an approach for autonomous vehicles that outperforms previous state of the art methods. It uses both self and cross attention in a modular design that is trainable from end to end. We'll be taking a closer look..
 
 
-![architecture](UniAD/sources/pipeline.png)
+![architecture](./UniAD/sources/pipeline.png)
 
 
 #deeplearning #attentionmechanisms #computervision
