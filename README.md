@@ -115,10 +115,10 @@ The CNN model was unmodified and the numbers produced correlate with the previou
 
 ## Experiment Four (In Progress)
 
-[Planning-oriented Autonomous Driving](https://arxiv.org/pdf/2212.10156) was one of the top papers at CVPR 2023 that describes an approach for autonomous vehicles that outperforms previous state of the art methods. It uses both self and cross attention in a modular design that is trainable from end to end. We'll be taking a closer look..
-
+After looking at how attention mechanisms performed on some basic datasets I wanted to see how they did in more modern applications and since I specialize in computer vision what better place to start than one of this year's top papers at CVPR, "[Planning-oriented Autonomous Driving](https://arxiv.org/pdf/2212.10156)." This approach unifies several computational blocks with cross-attention instead of more traditional representations like bounding boxes which the authors assert, "might suffer from accumulative errors or deficient task coordination." The authors also show significant improvement over previous works with similar computational complexity. The following diagram is the high level architecture where the cross-attention mechanisms are represent by K,V while the internal self-attention mechanisms are not shown.
 
 ![architecture](https://github.com/holestine/UniAD/blob/9442c46981a2e4d36bbc06e7ac424421f1596478/sources/pipeline.png)
+
 
 
 #deeplearning #attentionmechanisms #computervision
