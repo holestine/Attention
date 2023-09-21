@@ -34,6 +34,38 @@
             "purpose": ["debug-in-terminal"],
             "cwd": "${workspaceFolder}"
         },
-
+        {
+            "name": "Prepare UniAD Data",
+            "type": "python",
+            "request": "launch",
+            "program": "tools/create_data.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["nuscenes",
+                     "--root-path",
+                     "/data3/nuscenes",
+                     "--out-dir",
+                     "/data3/nuscenes/infos",
+                     "--extra-tag",
+                     "nuscenes",
+                     "--version",
+                     "v1.0",
+                     "--canbus",
+                     "/data3"
+                    ],
+            "purpose": ["debug-in-terminal"],
+            "cwd": "${workspaceFolder}/UniAD"
+        },
+        {
+            "name": "Create Anchors",
+            "type": "python",
+            "request": "launch",
+            "program": "tools/data_converter/create_anchor.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [],
+            "purpose": ["debug-in-terminal"],
+            "cwd": "${workspaceFolder}/UniAD"
+        },
     ]
 }
