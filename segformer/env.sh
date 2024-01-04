@@ -7,10 +7,9 @@ wget https://thinkautonomous-segmentation.s3.eu-west-3.amazonaws.com/archive.zip
 rm archive.zip 
 wget https://thinkautonomous-segmentation.s3.eu-west-3.amazonaws.com/segformers.zip && unzip segformers.zip
 rm segformers.zip
+rm segformers/utils.py
 mv segformers/* .
 rm -r segformers
 
 
 conda remove -n segformer --all
-
-
