@@ -8,7 +8,7 @@ from collections import namedtuple
 import torch
 from torchvision import transforms
 from torch.utils.data import Dataset
-
+import albumentations as A
 
 ###################################
 # FILE CONSTANTS
@@ -52,9 +52,9 @@ train_id_to_color = np.array(train_id_to_color)
 
 
 
-#####################################
+##########################################
 ### CITYSCAPES DATASET CLASS DEFINITION ##
-#####################################
+##########################################
 
 class cityScapeDataset(Dataset):
     def __init__(self, rootDir:str, folder:str, tf=None):
@@ -66,6 +66,15 @@ class cityScapeDataset(Dataset):
         self.rootDir = rootDir
         self.folder = folder
         self.transform = tf
+
+        self.augmentations = A.Compose([
+                    A.RandomCrop(width=128, height=128),
+                    A.HorizontalFlip(p=0.5),
+                    A.VerticalFlip(p=0.5),
+                    A.RandomRotate90(p=0.5),
+                    A.RandomBrightnessContrast(p=0.2),
+                    A.ElasticTransform(p=10.5, alpha=120, sigma=120 * 0.05, alpha_affine=120 * 0.03)
+                ])
 
         # read rgb image list
         sourceImgFolder =  os.path.join(self.rootDir, 'leftImg8bit', self.folder)
@@ -79,18 +88,29 @@ class cityScapeDataset(Dataset):
         return len(self.sourceImgFiles)
   
     def __getitem__(self, index):
-        # read source image and convert to RGB, apply transform
+        # read source image and convert to RGB
         sourceImage = cv2.imread(self.sourceImgFiles[index], -1)
         sourceImage = cv2.cvtColor(sourceImage, cv2.COLOR_BGR2RGB)
-        if self.transform is not None:
-            sourceImage = self.transform(sourceImage)
 
-        # read label image and convert to torch tensor
+        # read label image
         labelImage = cv2.imread(self.labelImgFiles[index], -1)
         labelImage[labelImage == 255] = 19
-        labelImage = torch.from_numpy(labelImage).long()
-        return sourceImage, labelImage        
 
+        # apply augmentations
+        augmented = self.augmentations(image=sourceImage, mask=labelImage)
+        sourceImage = augmented['image']
+        labelImage = augmented['mask']
+
+        # convert to torch tensors
+        if self.transform is not None:
+            sourceImage = self.transform(sourceImage)
+        labelImage = torch.from_numpy(labelImage).long()
+
+        # downsize for larger batches
+        #item_size = (256,512)
+        #sourceImage = torch.nn.functional.interpolate(sourceImage.unsqueeze(0), size=item_size).squeeze(0)
+        #labelImage = torch.nn.functional.interpolate(labelImage.double().unsqueeze(0).unsqueeze(0), size=item_size).long().squeeze(0).squeeze(0)
+        return sourceImage, labelImage
 
 ###################################
 # FUNCTION TO GET TORCH DATASET  #
